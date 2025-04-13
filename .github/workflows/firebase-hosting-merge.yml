@@ -18,3 +18,12 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LABA_8EC6C }}
           channelId: live
           projectId: laba-8ec6c
+        env:
+          VITE_apiKey: ${{ secrets.VITE_apiKey }}
+          VITE_authDomain: ${{ secrets.VITE_authDomain }}
+          VITE_databaseURL: ${{ secrets.VITE_databaseURL }}
+          VITE_projectId: ${{ secrets.VITE_projectId }}
+          VITE_storageBucket: ${{ secrets.VITE_storageBucket }}
+          VITE_messagingSenderId: ${{ secrets.VITE_messagingSenderId }}
+          VITE_appId: ${{ secrets.VITE_appId }}
+          
