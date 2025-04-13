@@ -8,13 +8,13 @@ import {
 
 console.log(import.meta.env.VITE_apiKey)
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_apiKey,
-  authDomain: import.meta.env.VITE_authDomain,
-  databaseURL: import.meta.env.VITE_databaseURL,
-  projectId: import.meta.env.VITE_projectId,
-  storageBucket: import.meta.env.VITE_storageBucket,
-  messagingSenderId: import.meta.env.VITE_messagingSenderId,
-  appId: import.meta.env.VITE_appId
+  apiKey: "AIzaSyCDoaljsnVOCSkPWLxz70zouJHJZGAbBmI",
+  authDomain: "laba-8ec6c.firebaseapp.com",
+  databaseURL: "https://laba-8ec6c-default-rtdb.firebaseio.com",
+  projectId: "laba-8ec6c",
+  storageBucket: "laba-8ec6c.firebasestorage.app",
+  messagingSenderId: "394946777798",
+  appId: "1:394946777798:web:d465e25b77c710b1ecfdc7"
 };
 
 const app = initializeApp(firebaseConfig);
