@@ -10,23 +10,31 @@ jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
     steps:
+      # Шаг 1: Проверка репозитория
       - uses: actions/checkout@v4
+
+      # Шаг 2: Установка зависимостей
+      - run: yarn install
+
+      # Шаг 3: Создание .env файла для сборки
       - name: Create .env file from GitHub Secrets
         run: |
-          echo "VITE_FIREBASE_API_KEY=${{ secrets.VITE_FIREBASE_API_KEY }}" >> .env
-          echo "VITE_FIREBASE_AUTH_DOMAIN=${{ secrets.VITE_FIREBASE_AUTH_DOMAIN }}" >> .env
-          echo "VITE_FIREBASE_DATABASE_URL=${{ secrets.VITE_FIREBASE_DATABASE_URL }}" >> .env
-          echo "VITE_FIREBASE_PROJECT_ID=${{ secrets.VITE_FIREBASE_PROJECT_ID }}" >> .env
-          echo "VITE_FIREBASE_STORAGE_BUCKET=${{ secrets.VITE_FIREBASE_STORAGE_BUCKET }}" >> .env
-          echo "VITE_FIREBASE_MESSAGING_SENDER_ID=${{ secrets.VITE_FIREBASE_MESSAGING_SENDER_ID }}" >> .env
-          echo "VITE_FIREBASE_APP_ID=${{ secrets.VITE_FIREBASE_APP_ID }}" >> .env
-      - run: yarn install && yarn build
+          echo "VITE_apiKey=${{ secrets.VITE_apiKey }}" >> .env
+          echo "VITE_authDomain=${{ secrets.VITE_authDomain }}" >> .env
+          echo "VITE_databaseURL=${{ secrets.VITE_databaseURL }}" >> .env
+          echo "VITE_projectId=${{ secrets.VITE_projectId }}" >> .env
+          echo "VITE_storageBucket=${{ secrets.VITE_storageBucket }}" >> .env
+          echo "VITE_messagingSenderId=${{ secrets.VITE_messagingSenderId }}" >> .env
+          echo "VITE_appId=${{ secrets.VITE_appId }}" >> .env
+
+      # Шаг 4: Сборка проекта с учетом переменных окружения
+      - run: yarn build
+
+      # Шаг 5: Деплой в Firebase Hosting
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LABA_8EC6C }}
-          channelId: live
           projectId: laba-8ec6c
-
       
           
