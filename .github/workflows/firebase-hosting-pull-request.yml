@@ -12,13 +12,7 @@ jobs:
     if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
     runs-on: ubuntu-latest
     steps:
-      # Шаг 1: Проверка репозитория
       - uses: actions/checkout@v4
-
-      # Шаг 2: Установка зависимостей
-      - run: yarn install
-
-      # Шаг 3: Создание .env файла для сборки
       - name: Create .env file from GitHub Secrets
         run: |
           echo "VITE_apiKey=${{ secrets.VITE_apiKey }}" >> .env
@@ -28,13 +22,17 @@ jobs:
           echo "VITE_storageBucket=${{ secrets.VITE_storageBucket }}" >> .env
           echo "VITE_messagingSenderId=${{ secrets.VITE_messagingSenderId }}" >> .env
           echo "VITE_appId=${{ secrets.VITE_appId }}" >> .env
-
-      # Шаг 4: Сборка проекта с учетом переменных окружения
-      - run: yarn build
-
-      # Шаг 5: Деплой в Firebase Hosting
+      - run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_LABA_8EC6C }}
           projectId: laba-8ec6c
+        env:
+          VITE_apiKey: ${{ secrets.VITE_apiKey }}
+          VITE_authDomain: ${{ secrets.VITE_authDomain }}
+          VITE_databaseURL: ${{ secrets.VITE_databaseURL }}
+          VITE_projectId: ${{ secrets.VITE_projectId }}
+          VITE_storageBucket: ${{ secrets.VITE_storageBucket }}
+          VITE_messagingSenderId: ${{ secrets.VITE_messagingSenderId }}
+          VITE_appId: ${{ secrets.VITE_appId }}
