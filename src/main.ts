@@ -28,9 +28,10 @@ const input = document.getElementById("messageInput") as HTMLInputElement;
 const button = document.getElementById("sendButton")!;
 const usernameModal = document.getElementById("usernameModal")!;
 const usernameInput = document.getElementById("usernameInput") as HTMLInputElement;
-const usernameConfirm = document.getElementById("usernameConfirm")!;
+const usernameForm = document.getElementById("usernameModalContent") as HTMLFormElement;
 
-usernameConfirm.addEventListener("click", () => {
+usernameForm.addEventListener("submit", (event) => {
+  event.preventDefault();
   const name = usernameInput.value.trim();
   if (name !== "") {
     username = name;
@@ -38,7 +39,7 @@ usernameConfirm.addEventListener("click", () => {
   }
 });
 
-button.addEventListener("click", () => {
+function sendMessage() {
   const text = input.value.trim();
   if (text === "" || username === "") return;
   push(messagesRef, {
@@ -47,14 +48,18 @@ button.addEventListener("click", () => {
     timestamp: Date.now(),
   });
   input.value = "";
-});
+}
+
+button.addEventListener("click", sendMessage);
 
 onChildAdded(messagesRef, (data) => {
   const msg = data.val();
   const msgEl = document.createElement("div");
   msgEl.className = "message";
-  const time = new Date(msg.timestamp).toLocaleTimeString();
-  msgEl.innerHTML = `<div class="time">${time}</div><div class="user">${msg.username || "Аноним"}</div><div>${msg.text}</div>`;
+  const datetime = new Date(msg.timestamp);
+  const time = datetime.toLocaleTimeString();
+  const date = datetime.toLocaleDateString();
+  msgEl.innerHTML = `<div class="time">${date} ${time}</div><div class="user">${msg.username || "Аноним"}</div><div>${msg.text}</div>`;
   messagesContainer.appendChild(msgEl);
   messagesContainer.scrollTop = messagesContainer.scrollHeight;
 });
